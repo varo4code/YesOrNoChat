@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 h-screen flex flex-col max-w-lg mx-auto">
+  <div class="bg-gray-100 h-screen flex flex-col mx-auto">
     <chatHeader />
 
     <chatMessages />
