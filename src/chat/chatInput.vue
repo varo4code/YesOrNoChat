@@ -4,12 +4,12 @@
       type="text"
       placeholder="Type your message..."
       class="max-w-lg flex-1 border rounded-full px-4 py-2 focus:outline-none"
-      @keypress.enter="sendMessage"
+      @keypress.enter="emitMessage"
       v-model="message"
     />
     <button
       class="bg-blue-500 text-white rounded-full p-2 ml-2 hover:bg-blue-600 focus:outline-none"
-      @click="sendMessage"
+      @click="emitMessage"
     >
       <svg
         width="20px"
@@ -43,11 +43,11 @@ const emits = defineEmits<{
   sendMessage: [text: string];
 }>();
 
-const sendMessage = () => {
+const emitMessage = () => {
   if (message.value.trim().length == 0) return;
 
+  // Send menssage + clean input
   emits('sendMessage', message.value);
-  console.log(message.value);
   message.value = '';
 };
 </script>

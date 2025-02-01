@@ -1,26 +1,34 @@
 import { ref } from 'vue';
 import type { message } from '@/interfaces/message.interface';
+import type { YesNoResponse } from '@/interfaces/yesnoresponse.interface';
+import { sleep } from './sleep';
 
 export const sendMessage = () => {
-  const messageList = ref<message[]>([
-    {
-      message: 'Hello World',
-      isMine: true,
-    },
-  ]);
+  const messageList = ref<message[]>([]);
 
-  const onNewMessage = (text: string) => {
+  const getMessageResponse = async (): Promise<YesNoResponse> => {
+    const res = await fetch('https://yesno.wtf/api');
+    return await res.json();
+  };
+
+  const onNewMessage = async (text: string) => {
     messageList.value.push({
       message: text,
       isMine: true,
     });
 
-    setTimeout(() => {
-      messageList.value.push({
-        message: 'No',
-        gif: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3lnbWpwZndycGpuYzJsdjNkeGI0cDA3ZXVsMWF1NnMwNmJyZzQ1cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fXnRObM8Q0RkOmR5nf/giphy.gif',
-      });
-    }, 2500);
+    await sleep(1.5);
+    if (
+      !text.includes('?') &&
+      !text.toLowerCase().includes('want') &&
+      !text.toLowerCase().includes('quieres')
+    )
+      return;
+    const { answer, image } = await getMessageResponse();
+    messageList.value.push({
+      message: answer,
+      gif: image,
+    });
   };
 
   return {
