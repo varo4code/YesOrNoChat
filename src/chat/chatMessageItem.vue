@@ -15,12 +15,7 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  message: string;
-  isMine?: boolean;
-  gif?: string;
-}
+import type { message } from '@/interfaces/message.interface';
 
-const props = defineProps<Props>();
+const props = defineProps<message>();
 </script>
-
